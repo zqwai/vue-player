@@ -1,25 +1,80 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
-</template>
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
+  <v-app
+    dark
+  >
+  <v-layout justify-center>
+    <v-flex xs12>
 
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
-</style>
+      <v-content>
+        <router-view></router-view>
+      </v-content>
+    </v-flex>
+
+    <VBottomNav
+      :bottomNavBars = 'bottomNavBars'
+    />
+
+    <VuetifyAudio
+      :song="song"
+      :ended="audioFinish"
+    >
+    </VuetifyAudio>
+    <!-- <VuetifyAudioList></VuetifyAudioList> -->
+
+  </v-layout>
+  </v-app>
+</template>
+
+<script>
+import VBottomNav from '@/components/public/VBottomNav'
+import VuetifyAudio from '@/components/player/VuetifyAudio'
+// axios
+// import axios from 'axios'
+// 本地存储
+// import storage from '@/model/storage'
+// app data
+import dbAppData from '@/libs/db_app'
+
+export default {
+  name: 'app',
+  components: {
+    VBottomNav,
+    VuetifyAudio
+  },
+  methods: {
+    audioFinish () {
+      console.log('播放结束')
+    }
+  },
+  data () {
+    return {
+      song: {
+        thumb: 'http://pic.xiami.net/images/album/img50/480050/4800501532480051.jpg@!c-400-400',
+        url: 'http://m128.xiami.net/511/1511/2103842553/1804120461_1532656680066.mp3?auth_key=1556679600-0-0-90c6f362cff6f8ab92e47e01d92f5ddb',
+        title: '心如止水',
+        anthor: '心如止水'
+      },
+      bottomNavBars: []
+    }
+  },
+  created () {
+    let arrdDbAppData = []
+    for (let i in dbAppData) {
+      arrdDbAppData.push(dbAppData[i]) // 属性
+    }
+    // console.log(arrdDbAppData)
+    this.bottomNavBars = arrdDbAppData
+
+    // axios.get('http://localhost:3000/top/song')
+    //   .then((data) => {
+    //     console.log(data.data)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
+  },
+  mounted () {
+    // console.log('2' + dbAppData)
+  }
+}
+</script>
