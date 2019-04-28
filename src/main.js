@@ -4,7 +4,7 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import axios from 'axios'
+import axios from 'axios'
 import './assets/stylus/reset.styl'
 
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -16,7 +16,7 @@ import './assets/stylus/reset.styl'
 //  })
 
 // axios
-// axios.defaults.baseURL = 'http://localhost:8080/'
+axios.defaults.baseURL = 'http://localhost:3000/'
 
 Vue.config.productionTip = false
 

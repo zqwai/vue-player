@@ -49,9 +49,15 @@
 <script>
 
 export default {
+  props:{
+    cards: {
+      type: Array,
+      default: null
+    }
+  },
   data () {
     return {
-      cards: [
+      cardss: [
         { title: '欧美R&B ：新旧碰撞的迷幻浪潮', src: 'https://p.qpic.cn/music_cover/nvRBiaJHaPBvG00iczEYfbu0oibQl7aic4ica96322ibeF7ujS0V4RY7SO2A/300?n=1', flex: 12 },
         { title: '热歌', src: 'https://y.gtimg.cn/music/photo/radio/track_radio_199_13_1.jpg?max_age=2592000', flex: 6 },
         { title: '一人一首招牌歌', src: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg?max_age=2592000', flex: 6 }

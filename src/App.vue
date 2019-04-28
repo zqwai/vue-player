@@ -41,11 +41,6 @@ export default {
     VBottomNav,
     VuetifyAudio
   },
-  methods: {
-    audioFinish () {
-      console.log('播放结束')
-    }
-  },
   data () {
     return {
       song: {
@@ -57,21 +52,14 @@ export default {
       bottomNavBars: []
     }
   },
-  created () {
-    let arrdDbAppData = []
-    for (let i in dbAppData) {
-      arrdDbAppData.push(dbAppData[i]) // 属性
+  methods: {
+    audioFinish () {
+      console.log('播放结束')
     }
-    // console.log(arrdDbAppData)
-    this.bottomNavBars = arrdDbAppData
-
-    // axios.get('http://localhost:3000/top/song')
-    //   .then((data) => {
-    //     console.log(data.data)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
+  },
+  created () {
+    this.bottomNavBars = dbAppData
+    // storage.set('bottomNavBars', dbAppData)
   },
   mounted () {
     // console.log('2' + dbAppData)

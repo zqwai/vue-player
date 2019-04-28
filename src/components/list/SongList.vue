@@ -1,7 +1,7 @@
 <template>
   <v-list>
-    <v-list-tile 
-      v-for="(list, i) in lists"  
+    <v-list-tile
+      v-for="(list, i) in lists"
       :key="i"
       avatar
       class="pt-2 pb-2"
@@ -39,7 +39,7 @@ export default {
         url: '#',
         playnum: '12312',
         time: '04:34',
-        author: '双笙',
+        author: '双笙'
       },
       {
         name: '不如我先说',
@@ -47,9 +47,9 @@ export default {
         url: '#',
         playnum: '12312',
         time: '04:34',
-        author: '李琦',
+        author: '李琦'
       }
-    ], 
+    ]
   })
 }
 </script>
@@ -59,7 +59,7 @@ export default {
   .v-tabs__container--align-with-title
     padding-left 0 !important
   .v-list__tile__action
-    width 56px 
+    width 56px
     .v-icon
       font-size .76rem
   // 标题
