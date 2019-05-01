@@ -17,6 +17,7 @@
     <VuetifyAudio
       :song="song"
       :ended="audioFinish"
+      v-if="false"
     >
     </VuetifyAudio>
     <!-- <VuetifyAudioList></VuetifyAudioList> -->
@@ -33,7 +34,7 @@ import VuetifyAudio from '@/components/player/VuetifyAudio'
 // 本地存储
 // import storage from '@/model/storage'
 // app data
-import dbAppData from '@/libs/db_app'
+import { dataBottomNavBars } from './data/db_app'
 
 export default {
   name: 'app',
@@ -58,11 +59,11 @@ export default {
     }
   },
   created () {
-    this.bottomNavBars = dbAppData
-    // storage.set('bottomNavBars', dbAppData)
+    this.bottomNavBars = dataBottomNavBars
+    // storage.set('bottomNavBars', dataBottomNavBars)
   },
   mounted () {
-    // console.log('2' + dbAppData)
+    // console.log('2' + dataBottomNavBars)
   }
 }
 </script>

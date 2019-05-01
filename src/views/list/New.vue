@@ -1,6 +1,4 @@
 <template>
-
-  
   <v-card>
     <v-container grid-list-sm fluid>
       <v-layout row wrap>
@@ -33,8 +31,6 @@
       </v-layout>
     </v-container>
   </v-card>
-  
-  
 </template>
 
 <script>

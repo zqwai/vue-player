@@ -16,11 +16,11 @@
         slider-color="white"
       >
         <v-tab
-          v-for="(menu, i) in menus"
+          v-for="(item, i) in listMenus"
           :key="i"
-          :to="menu.url"
+          :to="item.url"
         >
-          {{ menu.text }}
+          {{ item.text }}
         </v-tab>
       </v-tabs>
     </template>
@@ -31,39 +31,11 @@
 
 export default {
   name: 'list-header',
-  data () {
-    return {
-      menus: [
-        {
-          text: '推荐',
-          url: '/list'
-        },
-        {
-          text: '新歌',
-          url: '/new'
-        },
-        {
-          text: '排行榜',
-          url: '/billboard'
-        },
-        {
-          text: '专辑',
-          url: '/album'
-        },
-        {
-          text: '歌手',
-          url: '/artist'
-        }
-      ]
+  props: {
+    listMenus: {
+      type: Array,
+      default: null
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-// .v-input__icon
-//   .v-icon
-//     font-size 1.2rem !important
-// .v-input__slot
-//   margin-bottom 0
-</style>

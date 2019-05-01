@@ -1,9 +1,8 @@
-<template>  
-<v-layout relative>
-
+<template>
+<section relative>
   <v-card width="100%">
     <v-list subheader>
-      <v-subheader >热门</v-subheader>
+      <v-subheader >{{title}}</v-subheader>
       <v-list-tile
         v-for="(artist, index) in artists"
         :key="index"
@@ -24,74 +23,41 @@
     <v-divider></v-divider>
   </v-card>
 
-
-  <!-- <v-navigation-drawer
-    v-model="drawer"
-    class="pb-0"
-    hide-overlay
-    stateless
-    width="64"
-    temporary
-    right
-    fixed
-    height="310"
-    style="top:104px"
-  >
-    <v-layout >
-      <v-list class="grow">
-        <v-list-tile
-          v-for="(tag, index) in tags"
-          :key="index"
-        >
-          <v-list-tile-title v-text="tag.name"></v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-layout>
-  </v-navigation-drawer> -->
-
-</v-layout>
+</section>
 </template>
 
 <script>
-
-import axios from "axios"
-// 本地存储
-import storage from '../../model/storage';
+// api
+import { getArtistList } from '@/api/index'
+// data
+import { dataArtistMenus } from '@/data/db_app'
 
 export default {
   name: 'artist',
-  data() {
+  data () {
     return {
-      drawer: true,
       artists: {},
-      tags: {},
+      title: ''
     }
   },
-  methods:{
-    cartView() {
-      // console.log(this.text)
-    }
+  methods: {
+    //
   },
   created () {
-    // 判断本地localStorage 是否存在artists
-    if (localStorage.getItem("artists") != null) {
-      // console.log(storage.get('artists'))
-      this.artists = storage.get('artists')
-    } else {
-      // 获取歌手
-      axios.get('http://localhost:3000/toplist/artist')
-      .then((data) => {
-        // console.log(data.data);
-        this.artists = data.data.list.artists
-        // 保存数据
-        storage.set('artists', this.artists);
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
+    // 获取歌手分类名
+    for (let i = 0; i < dataArtistMenus.length; i++) {
+      if (this.$route.params.id === dataArtistMenus[i].uid) {
+        this.title = dataArtistMenus[i].text
+      }
     }
-
-      
+    // 获取歌手
+    getArtistList(this.$route.params.id)
+      .then((data) => {
+        this.artists = data.data.artists
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <section res="vplayui" class="vplay-ui">
+  <section ref="vplayui" class="vplay-ui">
 
   <v-slider
     class="playbar"

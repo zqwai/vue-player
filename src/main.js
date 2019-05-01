@@ -1,24 +1,14 @@
 import Vue from 'vue'
 import './plugins/axios'
 import './plugins/vuetify'
+// import Vuetify from 'vuetify'
 import App from './App.vue'
-import router from './router'
-import store from './store'
-import axios from 'axios'
+import router from './router/'
+import store from './store/'
 import './assets/stylus/reset.styl'
 
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-// Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-// Vue.use(Vuetify, {
-//   iconfont: 'faSvg',
-//  })
-
-// axios
-axios.defaults.baseURL = 'http://localhost:3000/'
-
 Vue.config.productionTip = false
+// Vue.use(Vuetify)
 
 new Vue({
   router,

@@ -5,14 +5,18 @@
       grid-list-md
     >
       <v-layout row wrap>
+        <v-card-title class="pt-0 pb-1 pl-0 pr-0">
+          <span class="grey--text">{{title}}</span>
+        </v-card-title>
         <v-flex
-          v-for="card in cards"
-          :key="card.title"
-          v-bind="{ [`xs${card.flex}`]: true }"
+          v-for="item in propsPlaylists"
+          :key="item.userId"
+          d-flex
+          v-bind="{ [`xs${item.flex}`]: true }"
         >
           <v-card>
             <v-img
-              :src="card.src"
+              :src="item.coverImgUrl"
             >
               <v-container
                 fill-height
@@ -21,12 +25,14 @@
               >
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
-                    <span class="headline white--text" v-text="card.title"></span>
+                    <span class="headline white--text" v-text="item.creator.nickname"></span>
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-img>
-
+            <v-card-title>
+              {{item.name}}
+            </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn icon>
@@ -49,19 +55,19 @@
 <script>
 
 export default {
-  props:{
-    cards: {
+  props: {
+    title: {
+      type: String,
+      default: '精品歌单'
+    },
+    playlists: {
       type: Array,
       default: null
     }
   },
   data () {
     return {
-      cardss: [
-        { title: '欧美R&B ：新旧碰撞的迷幻浪潮', src: 'https://p.qpic.cn/music_cover/nvRBiaJHaPBvG00iczEYfbu0oibQl7aic4ica96322ibeF7ujS0V4RY7SO2A/300?n=1', flex: 12 },
-        { title: '热歌', src: 'https://y.gtimg.cn/music/photo/radio/track_radio_199_13_1.jpg?max_age=2592000', flex: 6 },
-        { title: '一人一首招牌歌', src: 'https://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg?max_age=2592000', flex: 6 }
-      ]
+      //
     }
   }
 }

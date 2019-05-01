@@ -1,4 +1,4 @@
-<template>  
+<template>
   <v-card>
     <v-container
       fluid
@@ -89,7 +89,6 @@
       </v-layout>
     </v-container>
   </v-card>
-  
 </template>
 
 <script>
@@ -108,7 +107,7 @@ export default {
         url: '#',
         playnum: '12312',
         time: '04:34',
-        author: '双笙',
+        author: '双笙'
       },
       {
         name: '不如我先说',
@@ -116,9 +115,9 @@ export default {
         url: '#',
         playnum: '12312',
         time: '04:34',
-        author: '李琦',
+        author: '李琦'
       }
-    ], 
+    ]
   })
 }
 </script>
