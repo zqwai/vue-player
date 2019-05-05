@@ -9,9 +9,8 @@
       flat
       tile
     >
-
-      <v-card-actions class="justify-center">
-        &copy; {{new Date().getFullYear()}} — &nbsp;<strong>david</strong>
+      <v-card-actions class="justify-center grey--text">
+        &copy; {{new Date().getFullYear()}}-<strong>{{copyright}}</strong>
       </v-card-actions>
     </v-card>
   </v-footer>
@@ -21,9 +20,15 @@
 
 export default {
   name: 'vfooter',
+  props: {
+    copyright: {
+      type: String,
+      default: 'David[气味]'
+    }
+  },
   data () {
     return {
-      // icons: 
+      // icons:
     }
   }
 }

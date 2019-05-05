@@ -2,51 +2,46 @@
   <v-card>
     <v-container
       fluid
-      grid-list-md
+      grid-list-lg
     >
       <v-layout row wrap>
-        <v-card-title class="pt-0 pb-1 pl-0 pr-0">
-          <span class="grey--text">{{title}}</span>
-        </v-card-title>
-        <v-flex
-          v-for="item in propsPlaylists"
-          :key="item.userId"
-          d-flex
-          v-bind="{ [`xs${item.flex}`]: true }"
+
+        <v-flex xs12
+        v-for="item in playlists"
+        :key="item.id"
+        class="v-list-wrap"
         >
-          <v-card>
+          <v-card class="white--text">
+
             <v-img
-              :src="item.coverImgUrl"
+              class="bg-picUrl"
+              :src="item.picUrl"
+              contain
             >
-              <v-container
-                fill-height
-                fluid
-                pa-2
-              >
-                <v-layout fill-height>
-                  <v-flex xs12 align-end flexbox>
-                    <span class="headline white--text" v-text="item.creator.nickname"></span>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+              <v-flex xs12 fill-height class="bg-black-op-5">
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.name}}</div>
+                    <div>{{item.copywriter}}</div>
+                    <div>播放次数：{{ Math.floor(`${item.playCount}`) }}</div>
+                  </div>
+                </v-card-title>
+
+                <v-divider light></v-divider>
+                <v-card-actions class="pa-3">
+                  <v-btn small outline
+                  :to='`/detil/${item.id}`'
+                  >
+                    查看明细
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-icon>star_border</v-icon>
+                </v-card-actions>
+              </v-flex>
             </v-img>
-            <v-card-title>
-              {{item.name}}
-            </v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>favorite</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>bookmark</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>play_arrow</v-icon>
-              </v-btn>
-            </v-card-actions>
           </v-card>
         </v-flex>
+
       </v-layout>
     </v-container>
   </v-card>
@@ -55,11 +50,8 @@
 <script>
 
 export default {
+  name: 's-card',
   props: {
-    title: {
-      type: String,
-      default: '精品歌单'
-    },
     playlists: {
       type: Array,
       default: null
@@ -72,3 +64,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.v-list-wrap
+  .v-card__title
+    min-height 70%
+.bg-black-op-5
+  background-color rgba(0,0,0,.5)
+</style>

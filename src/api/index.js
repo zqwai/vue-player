@@ -33,14 +33,19 @@ export function getLoginPhone (phone, password) {
  * email: 163 网易邮箱
  * password
 */
-export function postLoginEmail () {
-  return axios.post('/login')
+export function postLoginEmail (email, password) {
+  return axios.post('/login', {
+    params: {
+      email: email,
+      password: password
+    }
+  })
 }
 /*
  * 调用email登录(参数):
 */
 export function getLoginEmail (email, password) {
-  return axios.post('/login', {
+  return axios.get('/login', {
     params: {
       email: email,
       password: password
@@ -103,7 +108,7 @@ export function artistMv (id) {
  * 获取歌手单曲
  * id: 歌手 id
 */
-export function artists (id) {
+export function getArtists (id) {
   return axios.get('/artists/', {
     params: {
       id: id
@@ -113,6 +118,41 @@ export function artists (id) {
 
 // 歌单 ================================================================
 
+/*
+ * 新歌速递
+ * ids: 音乐 id, 如 ids=347230
+*/
+export function getSongDetail (ids) {
+  return axios.get('/song/detail', {
+    params: {
+      ids: ids
+    }
+  })
+}
+/*
+ * 获取歌词
+ * ids: 音乐 id, 如 ids=347230
+*/
+export function getLyric (id) {
+  return axios.get('/lyric', {
+    params: {
+      id: id
+    }
+  })
+}
+
+/*
+ * 新歌速递
+ * type: 地区类型 id,对应以下:
+*/
+export function getTopSong (type, limit) {
+  return axios.get('/top/song', {
+    params: {
+      type: type,
+      limit: limit
+    }
+  })
+}
 /*
  * 排行榜
  * idx: 对象 key
@@ -202,9 +242,10 @@ export function getSongUrl (id) {
 
 // 推荐歌单
 export function getPersonalized (limit) {
-  return axios.get('/personalized', {
-    params: {
-      limit: limit
-    }
-  })
+  return axios.get('/personalized')
+}
+
+// 推荐新音乐
+export function getPersonalizedNewsong (limit) {
+  return axios.get('/personalized/newsong')
 }

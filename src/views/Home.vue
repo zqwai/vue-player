@@ -1,6 +1,8 @@
 <template>
   <section>
-    <Vheader />
+    <Vheader
+    :sideNavBars="sideNavBars"
+    />
     <!-- carousel -->
     <v-carousel
       height="128"
@@ -9,12 +11,14 @@
         v-for="(item, i) in banners"
         :key="i"
         :src="item.imageUrl"
-        :to="item.encodeId"
-      ></v-carousel-item>
+        :title="item.typeTitle"
+        :data-url="item.url"
+      >
+      </v-carousel-item>
     </v-carousel>
     <!-- /carousel -->
 
-    <v-card class="mt-2">
+    <v-card>
       <v-container
         fluid
         grid-list-md
@@ -40,15 +44,20 @@
                 >
                   <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
-                      <span class="headline white--text titlebg" v-text="item.creator.nickname"></span>
+                      <span
+                      class="headline white--text titlebg"
+                      v-text="`${item.creator.nickname.substr(0, 14)}`"
+                      ></span>
                     </v-flex>
                   </v-layout>
                 </v-container>
               </v-img>
-              <v-card-title>
+              <v-card-title class="v-title">
                 {{`${item.name.substr(0, 14)}`}}
               </v-card-title>
-              <v-card-actions>
+              <v-card-actions
+              class="icon-group-wrap"
+              >
                 <v-spacer></v-spacer>
                 <v-btn icon>
                   <v-icon>playlist_add</v-icon>
@@ -87,13 +96,17 @@
               <v-img
                 :src="item.picUrl"
               >
-                <v-layout fill-height>
+                <v-layout
+                fill-height
+                align-content-center
+                justify-center
+                class="align-center">
                   <v-btn icon class="icon-wrap">
                     <v-icon>play_arrow</v-icon>
                   </v-btn>
                 </v-layout>
               </v-img>
-              <v-card-title>
+              <v-card-title class="v-title">
                 {{`${item.name.substr(0, 14)}`}}
               </v-card-title>
             </v-card>
@@ -102,22 +115,11 @@
       </v-container>
     </v-card>
 
-    <v-btn
-    icon
-    fixed
-    small
-    color="red"
-    round
-    depressed
-    class="icon-scroll"
-    @click="goTo"
-    ref="scrollDom"
-    v-show="scrollShow"
-    >
-      <v-icon>keyboard_arrow_up</v-icon>
-    </v-btn>
-
     <Vfooter />
+
+    <VGoTop
+    :btnGoToColor="btnGoToColor"
+    />
   </section>
 </template>
 
@@ -125,45 +127,39 @@
 // @ is an alias to /src
 import Vheader from '@/components/public/Vheader'
 import Vfooter from '@/components/public/Vfooter'
-// import SongCard from '@/components/list/SongCard'
+import VGoTop from '@/components/public/VGoTop'
+
 // api
 import { getBanner, getRelatedPlaylist, getPersonalized } from '@/api/'
 // 本地存储
-import storage from '../model/storage'
-
-// 本地存储
-// import storage from '@/model/storage'
+import storage from '@/model/storage'
+// app data
+import { dataBottomNavBars } from '@/data/db_app'
 
 export default {
   name: 'home',
   components: {
     Vheader,
-    Vfooter
-    // SongCard
+    Vfooter,
+    VGoTop
   },
   data () {
     return {
+      sideNavBars: [],
       banners: [],
       playlists: [],
       personalized: [],
-      scrollDom: '',
-      scrollShow: false
+      btnGoToColor: 'red',
+      texta: {}
     }
   },
   methods: {
-    goTo () {
-      document.documentElement.scrollTo(0, 0)
-    },
-    showScrollButton () {
-      let top = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset
-      console.log(top)
-      if (top > 10) {
-        console.log(top)
-        this.scrollShow = !this.scrollShow
-      }
-    }
   },
   created () {
+    // 底部导航
+    this.sideNavBars = dataBottomNavBars
+    // console.log(dataBottomNavBars)
+
     // banners
     // 判断本地localStorage 是否存在 banners
     if (localStorage.getItem('banners') != null) {
@@ -172,16 +168,17 @@ export default {
     } else {
       getBanner().then((res) => {
         if (res.status === 200) {
-          console.log(`加载成功，status：${res.status}`)
-          // console.log(res.data)
-          storage.set('banners', res.data.banners)
+          // console.log(`加载成功，status：${res.status}`)
+          console.log(res.data)
+          this.banners = res.data.banners
+          // storage.set('banners', res.data.banners)
           // console.log(storage.get('banners'))
-          this.banners = storage.get('banners')
+          // this.banners = storage.get('banners')
         } else {
-          console.log(`加载失败，status：${res.status}`)
+          alert(`加载超时，status：${res.status}`)
         }
       }).catch((error) => {
-        console.log(error)
+        alert(error)
       })
     }
 
@@ -190,7 +187,6 @@ export default {
       // console.log(storage.get('personalized'))
       this.personalized = storage.get('personalized')
     } else {
-      // limit: limit
       getPersonalized(10).then((res) => {
         if (res.status === 200) {
           // console.log(`加载成功，status：${res.status}`)
@@ -240,7 +236,6 @@ export default {
     }
   },
   mounted () {
-    this.scrollDom = this.$refs.scrollDom
   },
   updated () {
     // this.showScrollButton
@@ -258,15 +253,16 @@ export default {
   word-wrap break-word
   background-color rgba(0,0,0,.6)
   padding .2rem
-  font-size 1rem !important
-.v-card__title
+  font-size .76rem !important
+.v-title
   word-break break-all
   word-wrap break-word
-.icon-wrap
-  background-color rgba(0,0,0,.6)
+  padding .5rem
+  height 4.2rem
+.icon-group-wrap
+  padding 0 .5rem .5rem
   .v-icon
-    font-size 2.8rem
-.icon-scroll
-  bottom 60px
-  right 15px
+    font-size 1.2rem
+.icon-wrap
+  background-color rgba(0,0,0,.4)
 </style>

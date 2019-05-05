@@ -14,7 +14,7 @@
       ref="audio"
       class="hide"
       name="media"
-      :src="song.url"
+      :src="song.mp3Url"
     >
     </audio>
 
@@ -26,12 +26,12 @@
         <v-list-tile-avatar
           @click="openPlayDetil"
         >
-          <img :src="song.thumb">
+          <img :src="song.picUrl">
         </v-list-tile-avatar>
 
         <v-list-tile-content>
           <v-list-tile-title>
-            {{song.title}} - <small>{{song.anthor}}</small>
+            {{song.name}} - <small>{{song.artistsName}}-《{{song.albumName}}》</small>
           </v-list-tile-title>
           <v-list-tile-sub-title>
             {{ currentTime }}-{{ duration }}
@@ -86,7 +86,7 @@
 const formatTime = second => new Date(second * 1000).toISOString().substr(11, 8)
 
 export default {
-  name: 'vuetify-audio',
+  name: 'v-audio',
   props: {
     song: {
       url: {

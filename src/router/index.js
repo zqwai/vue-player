@@ -20,39 +20,39 @@ export default new Router({
         {
           path: '/list',
           name: 'list',
-          component: () => import('./../views/list/List.vue')
+          component: () => import('./../views/lists/List.vue')
         },
         {
           path: '/new',
           name: 'new',
-          component: () => import('./../views/list/New.vue')
+          component: () => import('./../views/lists/New.vue')
         },
         {
           path: '/discover',
           name: 'discover',
-          component: () => import('./../views/list/Discover.vue'),
+          component: () => import('./../views/lists/Discover.vue'),
           children: [
             {
               path: '/discover/:id',
               name: 'discover-playlist',
-              component: () => import('./../views/list/billboard/DiscoverList.vue')
+              component: () => import('./../views/lists/billboard/DiscoverList.vue')
             }
           ]
         },
         {
           path: '/album',
           name: 'album',
-          component: () => import('./../views/list/Album.vue')
+          component: () => import('./../views/lists/Album.vue')
         },
         {
           path: '/artists',
           name: 'artists',
-          component: () => import('./../views/list/Artists.vue')
+          component: () => import('./../views/lists/Artists.vue')
         },
         {
           path: '/artists/:id',
           name: 'artist-list',
-          component: () => import('./../views/list/Artist.vue')
+          component: () => import('./../views/lists/Artist.vue')
         }
       ]
     },
@@ -65,6 +65,11 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: () => import('./../views/User.vue')
+    },
+    {
+      path: '/detil/:id',
+      name: 'list-detil',
+      component: () => import('./../views/detil/ListDetil.vue')
     },
     {
       path: '*',

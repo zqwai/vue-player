@@ -9,6 +9,9 @@ const storage = {
   },
   remvoe (key) {
     localStorage.removeItem(key)
+  },
+  clear () {
+    localStorage.clear()
   }
 }
 
