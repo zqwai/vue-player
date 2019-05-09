@@ -1,14 +1,33 @@
-# 音乐播放app 
+# 音乐播放app
 
 * 基于手机端
-* vue + vuetify 脚手架搭建
+* VUE全家桶(vue vue-router vuex)
+* vuetify (一个基于Vue3.x的material design 风格UI框架)
 * stylus 预处理
-* [neteasecloudmusicapi](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi)  数据接口
+* 数据接口  [neteasecloudmusicapi](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi) 端口：3000
+
+## 运行截图
+![首页](https://github.com/zqwai/vue-player/public/images/ui/1.png)
+![歌单-推荐](https://github.com/zqwai/vue-player/public/images/ui/2.png)
+![歌单-新歌](https://github.com/zqwai/vue-player/public/images/ui/3.png)
+![歌单-专辑](https://github.com/zqwai/vue-player/public/images/ui/4.png)
+![歌单-歌手](https://github.com/zqwai/vue-player/public/images/ui/5.png)
+![用户](https://github.com/zqwai/vue-player/public/images/ui/6.png)
+![播放器](https://github.com/zqwai/vue-player/public/images/ui/7.png)
 
 ## 运行项目
+
 ```
 npm install
 npm run serve
 npm run build
 npm run lint
 ```
+
+## 待完善
+
+* 列表播放
+* 上拉加载
+* 下拉刷新
+* 用户登录
+* 收藏

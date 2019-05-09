@@ -14,13 +14,15 @@
       :bottomNavBars = 'bottomNavBars'
     />
 
-    <v-audio
+    <v-player
       :song="this.$store.state.song"
       :ended="audioFinish"
       v-if="this.$store.state.showPlayer"
     >
-    </v-audio>
-    <!-- <VuetifyAudioList></VuetifyAudioList> -->
+    </v-player>
+    <v-player-detail
+      v-show="this.$store.state.showPlayerDetail"
+    ></v-player-detail>
 
   </v-layout>
   </v-app>
@@ -28,7 +30,8 @@
 
 <script>
 import VBottomNav from '@/components/public/VBottomNav'
-import VAudio from '@/components/player/VuetifyAudio'
+import VPlayer from '@/components/player/Player'
+import VPlayerDetail from '@/components/player/PlayerDetail'
 // axios
 // import axios from 'axios'
 // 本地存储
@@ -42,7 +45,8 @@ export default {
   name: 'app',
   components: {
     VBottomNav,
-    VAudio
+    VPlayer,
+    VPlayerDetail
   },
   store,
   data () {

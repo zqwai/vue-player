@@ -103,7 +103,7 @@ import store from '@/store/'
 const formatTime = second => new Date(second * 1000).toISOString().substr(11, 8)
 
 export default {
-  name: 'v-audio',
+  name: 'v-player',
   store,
   props: {
     song: {
@@ -160,6 +160,7 @@ export default {
   methods: {
     openPlayDetil () {
       console.log('打开歌曲播放详情面板')
+      this.$store.state.showPlayerDetail = !this.$store.state.showPlayerDetail
       // this.showFullPlayer = 'vplay-full'
       // console.log(this.showFullPlayer)
     },
