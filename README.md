@@ -7,13 +7,13 @@
 * 数据接口  [neteasecloudmusicapi](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi) 端口：3000
 
 ## 运行截图
-![首页](https://github.com/zqwai/vue-player/public/images/ui/1.png)
-![歌单-推荐](https://github.com/zqwai/vue-player/public/images/ui/2.png)
-![歌单-新歌](https://github.com/zqwai/vue-player/public/images/ui/3.png)
-![歌单-专辑](https://github.com/zqwai/vue-player/public/images/ui/4.png)
-![歌单-歌手](https://github.com/zqwai/vue-player/public/images/ui/5.png)
-![用户](https://github.com/zqwai/vue-player/public/images/ui/6.png)
-![播放器](https://github.com/zqwai/vue-player/public/images/ui/7.png)
+![首页](./public/images/ui/1.png)
+![歌单-推荐](./public/images/ui/2.png)
+![歌单-新歌](./public/images/ui/3.png)
+![歌单-专辑](./public/images/ui/4.png)
+![歌单-歌手](./public/images/ui/5.png)
+![用户](./public/images/ui/6.png)
+![播放器](./public/images/ui/7.png)
 
 ## 运行项目
 
