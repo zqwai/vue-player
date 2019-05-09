@@ -160,8 +160,8 @@ export default {
   methods: {
     openPlayDetil () {
       console.log('打开歌曲播放详情面板')
-      // this.showFullPlayer = 'vplay-full'
-      // console.log(this.showFullPlayer)
+      this.showFullPlayer = 'vplay-full'
+      console.log(this.showFullPlayer)
     },
     // playbar 点位 播放
     setPosition () {

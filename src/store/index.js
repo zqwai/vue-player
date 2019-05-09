@@ -13,8 +13,8 @@ let state = {
   // // 声音
   // isMuted: false,
   // loaded: false,
-  // // 播放
-  // playing: false,
+  // 播放
+  playing: false,
   // // 暂停
   // paused: false,
   song: {}
@@ -35,6 +35,9 @@ let mutations = {
     state.song = data
     console.log(state.showPlayer)
     console.log(state.song)
+  },
+  playingData (state, data) {
+    state.playing = true
   }
 }
 let actions = {
