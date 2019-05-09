@@ -62,7 +62,7 @@ export default {
     // storage.set('bottomNavBars', dataBottomNavBars)
   },
   mounted () {
-    console.log(this.$store.state.song)
+    // console.log(this.$store.state.song)
   }
 }
 </script>

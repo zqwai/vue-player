@@ -5,127 +5,82 @@
       grid-list-lg
     >
       <v-layout row wrap>
-        <v-flex xs12>
-          <v-card color="blue-grey darken-2" class="white--text">
-            <v-card-title primary-title>
-              <div>
-                <div class="headline">Unlimited music now</div>
-                <span>Listen to your favorite artists and albums whenever and wherever, online and offline.</span>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-btn flat dark>Listen now</v-btn>
-            </v-card-actions>
+
+        <v-flex xs12
+        v-for="item in albumnewest"
+        :key="item.id"
+        class="v-list-wrap"
+        >
+          <v-card class="white--text">
+
+            <v-img
+              class="bg-picUrl"
+              :src="item.picUrl"
+              contain
+            >
+              <v-flex xs12 fill-height class="bg-black-op-5">
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.name}}</div>
+                    <div>专辑：{{ item.artist.name }}</div>
+                    <div>公司：{{item.company}}</div>
+                  </div>
+                </v-card-title>
+
+                <v-divider light></v-divider>
+                <v-card-actions class="pa-3">
+                  <v-btn small outline
+                  :to='`/detil/${item.id}`'
+                  >
+                    查看明细
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-icon>star_border</v-icon>
+                </v-card-actions>
+              </v-flex>
+            </v-img>
           </v-card>
         </v-flex>
 
-        <v-flex xs12>
-          <v-card color="cyan darken-2" class="white--text">
-            <v-layout>
-              <v-flex xs5>
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                  height="125px"
-                  contain
-                ></v-img>
-              </v-flex>
-              <v-flex xs7>
-                <v-card-title primary-title>
-                  <div>
-                    <div class="headline">Supermodel</div>
-                    <div>Foster the People</div>
-                    <div>(2014)</div>
-                  </div>
-                </v-card-title>
-              </v-flex>
-            </v-layout>
-            <v-divider light></v-divider>
-            <v-card-actions class="pa-3">
-              Rate this album
-              <v-spacer></v-spacer>
-              <v-btn outline fab small>
-                <v-icon>fa-info</v-icon>
-              </v-btn>
-              <v-btn outline fab small>
-                <v-icon>fa-play</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-
-        <v-flex xs12>
-          <v-card color="purple" class="white--text">
-            <v-layout row>
-              <v-flex xs7>
-                <v-card-title primary-title>
-                  <div>
-                    <div class="headline">Halycon Days</div>
-                    <div>Ellie Goulding</div>
-                    <div>(2013)</div>
-                  </div>
-                </v-card-title>
-              </v-flex>
-              <v-flex xs5>
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-                  height="125px"
-                  contain
-                ></v-img>
-              </v-flex>
-            </v-layout>
-            <v-divider light></v-divider>
-            <v-card-actions class="pa-3">
-              Rate this album
-              <v-spacer></v-spacer>
-              <v-btn outline fab small>
-                <v-icon>fa-info</v-icon>
-              </v-btn>
-              <v-btn outline fab small>
-                <v-icon>fa-play</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
       </v-layout>
     </v-container>
   </v-card>
-</template>
 
+</template>
 <script>
-// import ListHeader from '@/components/list/ListHeader'
+// api
+import { getTopAlbum } from '@/api/index'
 
 export default {
   name: 'album',
   components: {
-    // ListHeader,
+    // SCard
   },
   data: () => ({
-    lists: [
-      {
-        name: '雨纷纷',
-        thumb: 'https://y.gtimg.cn/music/photo_new/T002R90x90M000002QmnEn3SGOsK.jpg?max_age=2592000',
-        url: '#',
-        playnum: '12312',
-        time: '04:34',
-        author: '双笙'
-      },
-      {
-        name: '不如我先说',
-        thumb: 'https://y.gtimg.cn/music/photo_new/T002R300x300M000001uBC4s0X5tVc.jpg?max_age=2592000',
-        url: '#',
-        playnum: '12312',
-        time: '04:34',
-        author: '李琦'
-      }
-    ]
-  })
+    albumnewest: []
+  }),
+  methods: {
+    _getTopAlbum () {
+      // offset 分页 5
+      // limit 数量 10
+      getTopAlbum('5', '10').then((res) => {
+        this.albumnewest = res.data.albums
+        console.log(this.albumnewest)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+  },
+  created () {
+    this._getTopAlbum()
+  }
 }
 </script>
+
 <style lang="stylus" scoped>
-.v-btn--floating.v-btn--small
-  width 1.52rem
-  height 1.52rem
-  text-align center
-  .v-icon
-    font-size .76rem
+.v-list-wrap
+  .v-card__title
+    min-height 70%
+.bg-black-op-5
+  background-color rgba(0,0,0,.5)
 </style>

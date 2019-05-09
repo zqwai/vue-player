@@ -10,7 +10,7 @@
       <v-carousel-item
         v-for="(item, i) in banners"
         :key="i"
-        :src="item.imageUrl"
+        :src="item.pic"
         :title="item.typeTitle"
         :data-url="item.url"
       >
@@ -117,9 +117,9 @@
 
     <Vfooter />
 
-    <VGoTop
+    <v-go-top
     :btnGoToColor="btnGoToColor"
-    />
+    ></v-go-top>
   </section>
 </template>
 
@@ -154,86 +154,106 @@ export default {
     }
   },
   methods: {
+    _getBanner () {
+      const ua = navigator.userAgent
+      let type
+      // console.log(ua)
+      if (ua.indexOf('iPhone') > -1) {
+        type = 1
+        // console.log(type)
+      } else {
+        type = 2
+        // console.log(type)
+      }
+
+      getBanner(type).then((res) => {
+        // banners
+        // 判断本地localStorage 是否存在 banners
+        if (localStorage.getItem('banners') != null) {
+          this.banners = storage.get('banners')
+          // console.log(this.banners)
+        } else {
+          getBanner('2').then((res) => {
+            if (res.status === 200) {
+              // console.log(`加载成功，status：${res.status}`)
+              console.log(res.data)
+              this.banners = res.data.banners
+              // storage.set('banners', res.data.banners)
+              // console.log(storage.get('banners'))
+              // this.banners = storage.get('banners')
+            } else {
+              alert(`加载超时，status：${res.status}`)
+            }
+          }).catch((error) => {
+            alert(error)
+          })
+        }
+      })
+    },
+
+    _getPersonalized () {
+      // 判断本地localStorage 是否存在 personalized
+      if (localStorage.getItem('personalized') != null) {
+        // console.log(storage.get('personalized'))
+        this.personalized = storage.get('personalized')
+      } else {
+        getPersonalized(10).then((res) => {
+          if (res.status === 200) {
+            // console.log(`加载成功，status：${res.status}`)
+            // console.log(res.data)
+            // this.personalized = res.data.result
+            // console.log(this.personalized)
+            storage.set('personalized', res.data.result)
+            this.personalized = storage.get('personalized')
+          } else {
+            console.log(`加载失败，status：${res.status}`)
+          }
+        })
+      }
+    },
+
+    _getRelatedPlaylist () {
+      // 判断本地localStorage 是否存在 playlists
+      if (localStorage.getItem('playlists') != null) {
+        // console.log(storage.get('playlists'))
+        this.playlists = storage.get('playlists')
+      } else {
+        // 相关歌单推荐
+        getRelatedPlaylist(1).then((res) => {
+          if (res.status === 200) {
+            // console.log(res.data.playlists)
+            // 添加flex布局 参数flex
+            for (var i = 0; i < res.data.playlists.length; i++) {
+              // console.log(i + ':' + res.data.playlists[i])
+              if (res.data.playlists.length / 2 > 0) {
+                if (i === 0) {
+                  res.data.playlists[0].flex = '12'
+                } else {
+                  res.data.playlists[i].flex = '6'
+                }
+                // console.log(res.data.playlists)
+                storage.set('playlists', res.data.playlists)
+                this.playlists = storage.get('playlists')
+              } else {
+                res.data.playlists[i].flex = '6'
+                // console.log(res.data.playlists)
+                storage.set('playlists', res.data.playlists)
+                this.playlists = storage.get('playlists')
+              }
+            }
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    }
   },
   created () {
     // 底部导航
     this.sideNavBars = dataBottomNavBars
-    // console.log(dataBottomNavBars)
-
-    // banners
-    // 判断本地localStorage 是否存在 banners
-    if (localStorage.getItem('banners') != null) {
-      this.banners = storage.get('banners')
-      // console.log(this.banners)
-    } else {
-      getBanner().then((res) => {
-        if (res.status === 200) {
-          // console.log(`加载成功，status：${res.status}`)
-          console.log(res.data)
-          this.banners = res.data.banners
-          // storage.set('banners', res.data.banners)
-          // console.log(storage.get('banners'))
-          // this.banners = storage.get('banners')
-        } else {
-          alert(`加载超时，status：${res.status}`)
-        }
-      }).catch((error) => {
-        alert(error)
-      })
-    }
-
-    // 判断本地localStorage 是否存在 personalized
-    if (localStorage.getItem('personalized') != null) {
-      // console.log(storage.get('personalized'))
-      this.personalized = storage.get('personalized')
-    } else {
-      getPersonalized(10).then((res) => {
-        if (res.status === 200) {
-          // console.log(`加载成功，status：${res.status}`)
-          // console.log(res.data)
-          // this.personalized = res.data.result
-          // console.log(this.personalized)
-          storage.set('personalized', res.data.result)
-          this.personalized = storage.get('personalized')
-        } else {
-          console.log(`加载失败，status：${res.status}`)
-        }
-      })
-    }
-
-    // 判断本地localStorage 是否存在 playlists
-    if (localStorage.getItem('playlists') != null) {
-      // console.log(storage.get('playlists'))
-      this.playlists = storage.get('playlists')
-    } else {
-      // 相关歌单推荐
-      getRelatedPlaylist(1).then((res) => {
-        if (res.status === 200) {
-          // console.log(res.data.playlists)
-          // 添加flex布局 参数flex
-          for (var i = 0; i < res.data.playlists.length; i++) {
-            // console.log(i + ':' + res.data.playlists[i])
-            if (res.data.playlists.length / 2 > 0) {
-              if (i === 0) {
-                res.data.playlists[0].flex = '12'
-              } else {
-                res.data.playlists[i].flex = '6'
-              }
-              // console.log(res.data.playlists)
-              storage.set('playlists', res.data.playlists)
-              this.playlists = storage.get('playlists')
-            } else {
-              res.data.playlists[i].flex = '6'
-              // console.log(res.data.playlists)
-              storage.set('playlists', res.data.playlists)
-              this.playlists = storage.get('playlists')
-            }
-          }
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
+    this._getBanner()
+    this._getPersonalized()
+    this._getRelatedPlaylist()
   },
   mounted () {
   },

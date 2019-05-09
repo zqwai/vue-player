@@ -5,8 +5,12 @@ import { URL, defaultLimit } from '@/config'
 axios.defaults.baseURL = URL
 
 // banner
-export function getBanner () {
-  return axios.get('/banner')
+export function getBanner (type) {
+  return axios.get('/banner', {
+    params: {
+      type: type
+    }
+  })
 }
 // 登录 ================================================================
 /*
@@ -172,6 +176,17 @@ export function getToplists () {
   return axios.get('/toplist/', {
     params: {
       defaultLimit: defaultLimit
+    }
+  })
+}
+/*
+ * 新碟上架
+*/
+export function getTopAlbum (offset, limit) {
+  return axios.get('/top/album', {
+    params: {
+      offset: offset,
+      limit: limit
     }
   })
 }

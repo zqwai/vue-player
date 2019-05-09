@@ -1,5 +1,7 @@
 <template>
-  <section ref="vplayui" class="vplay-ui">
+  <section
+  ref="vplayui"
+  class="vplay-ui">
 
   <v-slider
     class="playbar"
@@ -51,6 +53,16 @@
         <v-btn
           outline
           icon
+          class="pui-close"
+          @click.native="close()"
+          :disabled="!loaded"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
+
+        <v-btn
+          outline
+          icon
           class="pui-btn hide"
           @click.native="stop()"
           :disabled="!loaded"
@@ -83,10 +95,14 @@
 </template>
 
 <script>
+// 引入 store
+import store from '@/store/'
+
 const formatTime = second => new Date(second * 1000).toISOString().substr(11, 8)
 
 export default {
   name: 'v-audio',
+  store,
   props: {
     song: {
       url: {
@@ -134,7 +150,8 @@ export default {
       // 播放器dom
       audio: undefined,
       // vplay ui dom
-      vplayui: undefined
+      vplayui: undefined,
+      showVplay: false
     }
   },
   methods: {
@@ -156,6 +173,13 @@ export default {
       this.paused = this.playing = false
       this.audio.pause()
       this.audio.currentTime = 0
+    },
+    close () {
+      this.paused = this.playing = false
+      this.audio.pause()
+      this.audio.currentTime = 0
+      this.$store.state.showPlayer = false
+      // this.showVplay = flase
     },
     // 播放
     play () {

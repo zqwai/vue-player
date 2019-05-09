@@ -9,7 +9,7 @@
       <v-layout row wrap>
 
         <v-flex xs12
-        v-for="(item, index) in playlists"
+        v-for="(item, index) in topsonglists"
         :key="index"
         class="v-list-wrap"
         >
@@ -40,6 +40,7 @@
                   </v-btn>
                   <v-spacer></v-spacer>
                   <v-icon
+                  outline
                   ref='item'
                   @click="songPlay(index)"
                   :data-mp3Url="item.mp3Url"
@@ -71,27 +72,44 @@ export default {
   },
   store,
   data: () => ({
-    playlists: [],
-    showPlayPaddingBottm: ''
+    topsonglists: [],
+    showPlayPaddingBottm: '',
+    pageItems: 4
   }),
   methods: {
+    // 点击列表播放按钮
     songPlay (index) {
-      this.$store.commit('pushSongData', this.playlists[index])
       this.showPlayPaddingBottm = 'pb_60'
+      // 获取歌曲链接
+      getSongUrl(this.topsonglists[index].id).then((data) => {
+        if (data.status === 200) {
+          // console.log(data)
+          this.topsonglists[index].mp3Url = data.data.data[0].url
+        }
+      })
+      // 获取歌词
+      getLyric(this.topsonglists[index].id).then((data) => {
+        if (data.status === 200) {
+          // console.log(data)
+          this.topsonglists[index].lyric = data.data.lrc.lyric
+        }
+      })
+      this.$store.commit('pushSongData', this.topsonglists[index])
     },
 
-    _getTopSong () {
-      if (localStorage.getItem('playlists') != null) {
-        this.playlists = storage.get('playlists')
+    _getTopSong (pageItems) {
+      if (localStorage.getItem('topsonglists') != null) {
+        this.topsonglists = storage.get('topsonglists')
         // .slice(1, 5)
-        console.log(this.playlists)
+        console.log(this.topsonglists)
       } else {
         getTopSong('0', '10').then((res) => {
           if (res.status === 200) {
+            console.log(res)
             // if(res.data.data.length > 10 )
-            // storage.set('topsong', res.data.data)
-            let topsong = res.data.data.slice(1, 5)
+            let topsong = res.data.data.slice(1, pageItems)
             // console.log(topsong)
+            // 重组单曲数组
             topsong.forEach((el) => {
               let newArr = {
                 id: el.id,
@@ -113,35 +131,59 @@ export default {
                 // 歌词
                 lyric: ''
               }
-              getSongUrl(el.id).then((data) => {
-                if (data.status === 200) {
-                  // console.log(data)
-                  newArr.mp3Url = data.data.data[0].url
-                }
-              })
-              getLyric(el.id).then((data) => {
-                if (data.status === 200) {
-                  // console.log(data)
-                  newArr.lyric = data.data.lrc.lyric
-                }
-              })
-              this.playlists.push(newArr)
+              this.topsonglists.push(newArr)
             })
-            // this.playlists = res.data
-            console.log(this.playlists)
-            // storage.set('playlists', this.playlists)
+            // this.topsonglists = res.data
           } else {
             console.log(`data loading failed, err status: ${res.status}.`)
           }
+          // console.log(this.topsonglists)
+          // storage.set('topsonglists', this.topsonglists)
         })
       }
+    },
+
+    loadingMore () {
+      this.$vuetify.goTo(0)
     }
+
+    // onScroll () {
+    //   // console.log('scroll')
+    //   // 可滚动容器的高度
+    //   let innerHeight = document.querySelector('#app').clientHeight
+    //   // 屏幕尺寸高度
+    //   let outerHeight = document.documentElement.clientHeight
+    //   // 可滚动容器超出当前窗口显示范围的高度
+    //   let scrollTop = document.documentElement.scrollTop
+    //   // scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，
+    //   // 出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
+    //   // console.log(`
+    //   //   可滚动容器的高度:${innerHeight},
+    //   //   屏幕尺寸高度:${outerHeight},
+    //   //   滚动时高度:${scrollTop}
+    //   // `)
+    //   if (innerHeight < (outerHeight + scrollTop)) {
+    //     // 加载更多操作
+    //     // console.log('loadmore')
+    //     this.pageItems += 10
+    //     console.log('<' + this.pageItems)
+    //   } else if (innerHeight === (outerHeight + scrollTop)) {
+    //     this.pageItems += 10
+    //     console.log('=' + this.pageItems)
+    //   }
+    // }
   },
   created () {
-    this._getTopSong()
+    this._getTopSong(this.pageItems)
+    // window.addEventListener('scroll', this.onScroll)
   },
   mounted () {
     //
+  },
+  updated () {
+    if (this.pageItems > 10) {
+      this._getTopSong(this.pageItems)
+    }
   }
 }
 </script>

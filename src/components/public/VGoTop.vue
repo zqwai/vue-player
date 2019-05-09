@@ -35,7 +35,7 @@ export default {
       if (typeof window === 'undefined') return
       let top = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset || e.target.scrollTop || 0
       // console.log(top)
-      this.scrollShow = top > 50
+      this.scrollShow = top > 300
     }
   }
 }
